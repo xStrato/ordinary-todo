@@ -9,7 +9,6 @@ namespace OrndinaryToDo.Infra.Contexts
         {
         }
         public DbSet<TodoItem> Todos { get; set; }
-
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<TodoItem>().ToTable("Todo");

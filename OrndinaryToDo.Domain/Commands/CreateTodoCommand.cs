@@ -7,9 +7,9 @@ namespace OrndinaryToDo.Domain.Commands
 {
     public class CreateTodoCommand : Notifiable, ICommand
     {
-        public string Title { get; private set; }
-        public DateTime Date { get; private set; }
-        public string User { get; private set; }
+        public string Title { get; set; }
+        public DateTime Date { get; set; }
+        public string User { get; set; }
         public CreateTodoCommand() { }
         public CreateTodoCommand(string title, string user, DateTime date)
         {
