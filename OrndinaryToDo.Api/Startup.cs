@@ -23,8 +23,8 @@ namespace OrndinaryToDo.Api
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers();
-            services.AddDbContext<DataContext>(opt => opt.UseInMemoryDatabase("Database"));
-            //services.AddDbContext<DataContext>(opt => opt.UseSqlServer(Configuration.GetConnectionString("ConnString")));
+            // services.AddDbContext<DataContext>(opt => opt.UseInMemoryDatabase("Database"));
+            services.AddDbContext<DataContext>(opt => opt.UseSqlServer(Configuration.GetConnectionString("connectionString")));
 
             services.AddTransient<ITodoRepository, TodoRepository>();
             // services.AddTransient<IHandler<CreateTodoCommand>, TodoHandler>();
