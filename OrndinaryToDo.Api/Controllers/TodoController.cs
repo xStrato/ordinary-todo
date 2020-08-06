@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using Microsoft.AspNetCore.Mvc;
 using OrndinaryToDo.Domain.Commands;
 using OrndinaryToDo.Domain.Entities;
@@ -16,49 +17,56 @@ namespace OrndinaryToDo.Api.Controllers
         [HttpGet]
         public IEnumerable<TodoItem> GetAllTasks([FromServices] ITodoRepository repository)
         {
-            return repository.GetAllTasks("xStrato");
+            var user = User.Claims.FirstOrDefault(x => x.Type.Equals("user_id"))?.Value;
+            return repository.GetAllTasks(user);
         }
 
         [Route("done")]
         [HttpGet]
         public IEnumerable<TodoItem> GetAllDone([FromServices] ITodoRepository repository)
         {
-            return repository.GetAllDone("xStrato");
+            var user = User.Claims.FirstOrDefault(x => x.Type.Equals("user_id"))?.Value;
+            return repository.GetAllDone(user);
         }
 
         [Route("undone")]
         [HttpGet]
         public IEnumerable<TodoItem> GetAllUndone([FromServices] ITodoRepository repository)
         {
-            return repository.GetAllUndone("xStrato");
+            var user = User.Claims.FirstOrDefault(x => x.Type.Equals("user_id"))?.Value;
+            return repository.GetAllUndone(user);
         }
 
         [Route("done/today")]
         [HttpGet]
         public IEnumerable<TodoItem> GetDoneForToday([FromServices] ITodoRepository repository)
         {
-            return repository.GetByPeriod("xStrato", DateTime.Now, true);
+            var user = User.Claims.FirstOrDefault(x => x.Type.Equals("user_id"))?.Value;
+            return repository.GetByPeriod(user, DateTime.Now, true);
         }
 
         [Route("done/tomorrow")]
         [HttpGet]
         public IEnumerable<TodoItem> GetDoneForTomorrow([FromServices] ITodoRepository repository)
         {
-            return repository.GetByPeriod("xStrato", DateTime.Now.Date.AddDays(1), true);
+            var user = User.Claims.FirstOrDefault(x => x.Type.Equals("user_id"))?.Value;
+            return repository.GetByPeriod(user, DateTime.Now.Date.AddDays(1), true);
         }
 
         [Route("undone/today")]
         [HttpGet]
         public IEnumerable<TodoItem> GetUndoneForToday([FromServices] ITodoRepository repository)
         {
-            return repository.GetByPeriod("xStrato", DateTime.Now, false);
+            var user = User.Claims.FirstOrDefault(x => x.Type.Equals("user_id"))?.Value;
+            return repository.GetByPeriod(user, DateTime.Now, false);
         }
 
         [Route("undone/tomorrow")]
         [HttpGet]
         public IEnumerable<TodoItem> GetUndoneForTomorrow([FromServices] ITodoRepository repository)
         {
-            return repository.GetByPeriod("xStrato", DateTime.Now.Date.AddDays(1), false);
+            var user = User.Claims.FirstOrDefault(x => x.Type.Equals("user_id"))?.Value;
+            return repository.GetByPeriod(user, DateTime.Now.Date.AddDays(1), false);
         }
 
         [Route("")]
@@ -66,7 +74,7 @@ namespace OrndinaryToDo.Api.Controllers
         //Model Binding
         public CommandResult Create([FromBody] CreateTodoCommand command, [FromServices] TodoHandler handler)
         {
-            command.User = "xStrato";
+            command.User = User.Claims.FirstOrDefault(x => x.Type.Equals("user_id"))?.Value;
             return (CommandResult)handler.Handle(command);
         }
 
@@ -75,7 +83,7 @@ namespace OrndinaryToDo.Api.Controllers
         //Model Binding
         public CommandResult Update([FromBody] UpdateTodoCommand command, [FromServices] TodoHandler handler)
         {
-            command.User = "xStrato";
+            command.User = User.Claims.FirstOrDefault(x => x.Type.Equals("user_id"))?.Value;
             return (CommandResult)handler.Handle(command);
         }
 
@@ -84,7 +92,7 @@ namespace OrndinaryToDo.Api.Controllers
         //Model Binding
         public CommandResult MarkAsDone([FromBody] MarkTodoAsDoneCommand command, [FromServices] TodoHandler handler)
         {
-            command.User = "xStrato";
+            command.User = User.Claims.FirstOrDefault(x => x.Type.Equals("user_id"))?.Value;
             return (CommandResult)handler.Handle(command);
         }
 
@@ -93,7 +101,7 @@ namespace OrndinaryToDo.Api.Controllers
         //Model Binding
         public CommandResult MarkAsUndone([FromBody] MarkTodoAsUndoneCommand command, [FromServices] TodoHandler handler)
         {
-            command.User = "xStrato";
+            command.User = User.Claims.FirstOrDefault(x => x.Type.Equals("user_id"))?.Value;
             return (CommandResult)handler.Handle(command);
         }
     }
